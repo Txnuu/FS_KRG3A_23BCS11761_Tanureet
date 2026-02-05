@@ -1,8 +1,15 @@
+// src/pages/Reports.jsx
+import Typography from '@mui/material/Typography';
+
 const Reports = () => {
   return (
     <div>
-      <h3>Reports Page</h3>
-      <p>This is the Analytics page of EcoTrack.</p>
+      <Typography variant="h4" gutterBottom>
+        Reports & Analytics
+      </Typography>
+      <Typography paragraph>
+        Detailed reports and carbon footprint analysis coming soon...
+      </Typography>
     </div>
   );
 };

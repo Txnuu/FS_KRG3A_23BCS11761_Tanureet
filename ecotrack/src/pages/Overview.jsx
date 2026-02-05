@@ -1,8 +1,15 @@
+// src/pages/Overview.jsx
+import Typography from '@mui/material/Typography';
+
 const Overview = () => {
   return (
     <div>
-      <h3>Overview Page</h3>
-      <p>This is the Overview page of EcoTrack.</p>
+      <Typography variant="h4" gutterBottom>
+        Overview Page
+      </Typography>
+      <Typography paragraph>
+        This is the Overview section of EcoTrack.
+      </Typography>
     </div>
   );
 };
