@@ -20,19 +20,35 @@ const Login = () => {
       alignItems: 'center', 
       justifyContent: 'center', 
       minHeight: '100vh',
-      p: 3 
+      p: 3,
+      background: 'linear-gradient(135deg, #4CAF50, #2E7D32)',
+      color: 'white'
     }}>
       <Typography variant="h4" gutterBottom>
         Welcome to EcoTrack
       </Typography>
+
+      <Typography variant="subtitle1" sx={{ mb: 3 }}>
+        Developed by Tanureet Kaur
+      </Typography>
+
       <Button 
         variant="contained" 
-        color="primary" 
         size="large" 
         onClick={handleLogin}
-        sx={{ mt: 3, px: 6, py: 1.5 }}
+        sx={{ 
+          mt: 2, 
+          px: 6, 
+          py: 1.5,
+          backgroundColor: 'white',
+          color: '#2E7D32',
+          fontWeight: 'bold',
+          '&:hover': {
+            backgroundColor: '#e8f5e9'
+          }
+        }}
       >
-        Login to EcoTrack
+        Login as Tanureet
       </Button>
     </Box>
   );

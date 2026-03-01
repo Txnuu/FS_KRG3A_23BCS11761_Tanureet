@@ -1,8 +1,8 @@
-import { lazy, Suspense } from "react";                  
+import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import WaterTracker from "./pages/WaterTracker";
 
-// Lazy load pages 
 const Dashboard       = lazy(() => import("./pages/Dashboard"));
 const DashboardHome   = lazy(() => import("./pages/DashboardHome"));
 const Overview        = lazy(() => import("./pages/Overview"));
@@ -35,6 +35,8 @@ const App = () => {
           <Route index element={<DashboardHome />} />
           <Route path="overview" element={<Overview />} />
           <Route path="reports" element={<Reports />} />
+
+          <Route path="water" element={<WaterTracker />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/dashboard" />} />

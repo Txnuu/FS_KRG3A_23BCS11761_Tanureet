@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { Outlet, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { Outlet, useNavigate, Link as RouterLink, useLocation } from 'react-router-dom';
 import { useAuth } from "../context/AuthContext";
-import Header from "../components/Header";
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,20 +14,20 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
 
 import HomeIcon from '@mui/icons-material/Home';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
-
+import OpacityIcon from '@mui/icons-material/Opacity';
 
 const drawerWidth = 240;
 
 const Dashboard = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
@@ -40,49 +39,87 @@ const Dashboard = () => {
     setMobileOpen(!mobileOpen);
   };
 
+  const isActive = (path) => {
+    return location.pathname === `/dashboard/${path}` ||
+           (path === "" && location.pathname === "/dashboard");
+  };
+
   const drawerContent = (
     <div>
-      <Toolbar />  {/* spacer under AppBar */}
+      <Toolbar />
       <Divider />
+
       <List>
+        {/* Home */}
         <ListItem disablePadding>
-          <ListItemButton 
-            component={RouterLink} 
-            to="" 
+          <ListItemButton
+            component={RouterLink}
+            to=""
+            selected={isActive("")}
             onClick={() => setMobileOpen(false)}
           >
-            <ListItemIcon><HomeIcon /></ListItemIcon>
+            <ListItemIcon>
+              <HomeIcon sx={{ color: 'white' }} />
+            </ListItemIcon>
             <ListItemText primary="Home" />
           </ListItemButton>
         </ListItem>
 
+        {/* Overview */}
         <ListItem disablePadding>
-          <ListItemButton 
-            component={RouterLink} 
-            to="overview" 
+          <ListItemButton
+            component={RouterLink}
+            to="overview"
+            selected={isActive("overview")}
             onClick={() => setMobileOpen(false)}
           >
-            <ListItemIcon><DashboardIcon /></ListItemIcon>
+            <ListItemIcon>
+              <DashboardIcon sx={{ color: 'white' }} />
+            </ListItemIcon>
             <ListItemText primary="Overview" />
           </ListItemButton>
         </ListItem>
 
+        {/* Reports */}
         <ListItem disablePadding>
-          <ListItemButton 
-            component={RouterLink} 
-            to="reports" 
+          <ListItemButton
+            component={RouterLink}
+            to="reports"
+            selected={isActive("reports")}
             onClick={() => setMobileOpen(false)}
           >
-            <ListItemIcon><AssessmentIcon /></ListItemIcon>
+            <ListItemIcon>
+              <AssessmentIcon sx={{ color: 'white' }} />
+            </ListItemIcon>
             <ListItemText primary="Reports" />
           </ListItemButton>
         </ListItem>
+
+        {/* ✅ Water Tracker */}
+        <ListItem disablePadding>
+          <ListItemButton
+            component={RouterLink}
+            to="water"
+            selected={isActive("water")}
+            onClick={() => setMobileOpen(false)}
+          >
+            <ListItemIcon>
+              <OpacityIcon sx={{ color: 'white' }} />
+            </ListItemIcon>
+            <ListItemText primary="Water Tracker" />
+          </ListItemButton>
+        </ListItem>
       </List>
+
       <Divider />
+
+      {/* Logout */}
       <List>
         <ListItem disablePadding>
           <ListItemButton onClick={handleLogout} sx={{ color: 'error.main' }}>
-            <ListItemIcon><LogoutIcon color="error" /></ListItemIcon>
+            <ListItemIcon>
+              <LogoutIcon color="error" />
+            </ListItemIcon>
             <ListItemText primary="Logout" />
           </ListItemButton>
         </ListItem>
@@ -92,13 +129,14 @@ const Dashboard = () => {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* AppBar at top */}
+      
+      {/* Top AppBar */}
       <AppBar
         position="fixed"
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },   // ← important: push content right
-          backgroundColor: '#4CAF50',
+          ml: { sm: `${drawerWidth}px` },
+          backgroundColor: '#2E7D32',
         }}
       >
         <Toolbar>
@@ -110,21 +148,19 @@ const Dashboard = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap component="div">
-            Dashboard
+
+          <Typography variant="h6" noWrap>
+            EcoTrack Dashboard
           </Typography>
         </Toolbar>
       </AppBar>
 
-      {/* Sidebar - LEFT side */}
+      {/* Sidebar */}
       <Box
         component="nav"
-        sx={{ 
-          width: { sm: drawerWidth }, 
-          flexShrink: { sm: 0 } 
-        }}
+        sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
       >
-        {/* Mobile temporary drawer */}
+        {/* Mobile Drawer */}
         <Drawer
           variant="temporary"
           open={mobileOpen}
@@ -132,51 +168,47 @@ const Dashboard = () => {
           ModalProps={{ keepMounted: true }}
           sx={{
             display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
-              width: drawerWidth,
-              backgroundColor: '#4CAF50',  // green theme
-              color: 'white',
-            },
-          }}
-        >
-          {drawerContent}
-        </Drawer>
-
-        {/* Desktop permanent drawer - LEFT */}
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', sm: 'block' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
+            '& .MuiDrawer-paper': {
               width: drawerWidth,
               backgroundColor: '#4CAF50',
               color: 'white',
             },
           }}
+        >
+          {drawerContent}
+        </Drawer>
+
+        {/* Desktop Drawer */}
+        <Drawer
+          variant="permanent"
           open
+          sx={{
+            display: { xs: 'none', sm: 'block' },
+            '& .MuiDrawer-paper': {
+              width: drawerWidth,
+              backgroundColor: '#4CAF50',
+              color: 'white',
+            },
+          }}
         >
           {drawerContent}
         </Drawer>
       </Box>
 
-      {/* Main content - pushed to right */}
+      {/* Main Content */}
       <Box
         component="main"
         sx={{
           flexGrow: 1,
           p: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
-          ml: { sm: `${drawerWidth}px` },     // ← ensures shift
-          mt: '64px',                         // space under AppBar (Toolbar height)
-          backgroundColor: 'background.default',
+          ml: { sm: `${drawerWidth}px` },
+          mt: '64px',
+          backgroundColor: '#f5f5f5',
+          minHeight: '100vh'
         }}
       >
-        {/* Spacer for fixed AppBar */}
         <Toolbar />
-
-        {/* This is where your child routes render: DashboardHome / Overview / Reports */}
         <Outlet />
       </Box>
     </Box>
