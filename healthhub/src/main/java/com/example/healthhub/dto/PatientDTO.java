@@ -1,45 +1,37 @@
 package com.example.healthhub.dto;
 
 import jakarta.validation.constraints.*;
+import java.util.List;
 
 public class PatientDTO {
 
-    @NotBlank(message = "Name cannot be empty")
+    private Long id;
+
+    @NotBlank
     private String name;
 
-    @Email(message = "Invalid email")
+    @Email
+    @NotBlank
     private String email;
 
-    @Min(value = 1, message = "Age must be positive")
+    @Min(1)
     private int age;
 
-    // Getter for name
-    public String getName() {
-        return name;
-    }
+    private List<String> appointmentDates;
 
-    // Setter for name
-    public void setName(String name) {
-        this.name = name;
-    }
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    // Getter for email
-    public String getEmail() {
-        return email;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    // Setter for email
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    // Getter for age
-    public int getAge() {
-        return age;
-    }
+    public int getAge() { return age; }
+    public void setAge(int age) { this.age = age; }
 
-    // Setter for age
-    public void setAge(int age) {
-        this.age = age;
-    }
+    public List<String> getAppointmentDates() { return appointmentDates; }
+    public void setAppointmentDates(List<String> appointmentDates) { this.appointmentDates = appointmentDates; }
 }

@@ -1,44 +1,35 @@
 package com.example.healthhub.controller;
 
-import com.example.healthhub.dto.PatientDTO;
-import com.example.healthhub.entity.Patient;
-import com.example.healthhub.service.PatientService;
-import jakarta.validation.Valid;
+import com.example.healthhub.dto.*;
+import com.example.healthhub.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
 
 @RestController
 @RequestMapping("/patients")
 public class PatientController {
 
     @Autowired
-    private PatientService service;
+    private PatientService patientService;
 
+    // ✅ Create Patient
     @PostMapping
-    public Patient create(@Valid @RequestBody PatientDTO dto){
-
-        Patient patient = new Patient();
-        patient.setName(dto.getName());
-        patient.setEmail(dto.getEmail());
-        patient.setAge(dto.getAge());
-
-        return service.save(patient);
+    public PatientDTO createPatient(@RequestBody PatientDTO dto) {
+        return patientService.savePatient(dto);
     }
 
+    // ✅ Get All Patients (Pagination)
     @GetMapping
-    public List<Patient> getAll(){
-        return service.getAll();
+    public Page<PatientDTO> getPatients(
+            @RequestParam int page,
+            @RequestParam int size) {
+        return patientService.getPatients(page, size);
     }
 
+    // ✅ Get Patient by ID
     @GetMapping("/{id}")
-    public Patient getById(@PathVariable Long id){
-        return service.getById(id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        service.delete(id);
+    public PatientDTO getPatient(@PathVariable Long id) {
+        return patientService.getPatient(id);
     }
 }
